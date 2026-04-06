@@ -1,0 +1,46 @@
+# 3dscarn pipeline configuration
+# All tuneable parameters live here. Scripts read this file; nothing is hardcoded.
+
+preprocessing:
+  # Depth difference (mm) above which a pixel is considered foreground
+  depth_threshold_mm: 30
+  # Morphological kernel size (pixels) for noise removal
+  morph_kernel_size: 5
+  # Minimum foreground blob area (pixels) — blobs smaller than this are discarded
+  min_blob_area: 500
+  # MediaPipe hand detection: minimum confidence to count as a hand
+  hand_detection_confidence: 0.7
+  # Extra dilation (pixels) applied to the MediaPipe hand mask to cover edges
+  hand_mask_dilation: 20
+
+pointcloud:
+  # Maximum depth (mm) to include — pixels beyond this are discarded
+  max_depth_mm: 2000
+  # Minimum depth (mm) — pixels closer than this are discarded
+  min_depth_mm: 100
+  # Voxel size (m) for downsampling each per-frame point cloud before ICP
+  downsample_voxel_m: 0.003
+
+registration:
+  # Maximum correspondence distance (m) for ICP
+  icp_max_distance_m: 0.02
+  # ICP convergence threshold (relative fitness change)
+  icp_relative_fitness: 1.0e-6
+  # ICP convergence threshold (relative RMSE change)
+  icp_relative_rmse: 1.0e-6
+  # Maximum ICP iterations per pair
+  icp_max_iterations: 50
+
+fusion:
+  # TSDF voxel size (m) — smaller = finer detail, more memory
+  tsdf_voxel_size_m: 0.004
+  # TSDF truncation distance (m) — typically 4–8× voxel size
+  tsdf_truncation_m: 0.02
+  # TSDF volume dimensions (voxels per side)
+  tsdf_volume_size: 512
+
+mesh:
+  # Output directory for the final mesh (relative to 3dscarn/)
+  output_dir: output
+  # Output filename
+  output_filename: mesh.ply
